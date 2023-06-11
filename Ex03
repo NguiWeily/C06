@@ -1,0 +1,89 @@
+Files to turn in : ft_sort_params.c
+Allowed functions : write
+
+• We’re dealing with a program here, you should therefore have a function main in
+your .c file.
+• Create a program that displays its given arguments sorted by ascii order.
+• It should display all arguments, except for argv[0].
+• One argument per line.
+
+Here's an implementation of the `ft_sort_params` program that displays its given arguments sorted in ASCII order:
+
+```c
+#include <unistd.h>
+
+void ft_putchar(char c) {
+    write(1, &c, 1);
+}
+
+int ft_strcmp(char *s1, char *s2) {
+    int i = 0;
+    while (s1[i] == s2[i]) {
+        if (s1[i] == '\0')
+            return 0;
+        i++;
+    }
+    return s1[i] - s2[i];
+}
+
+void ft_putstr(char *str) {
+    int i = 0;
+    while (str[i] != '\0') {
+        ft_putchar(str[i]);
+        i++;
+    }
+}
+
+void ft_sort_params(int argc, char *argv[]) {
+    int i, j;
+    char *temp;
+
+    for (i = 1; i < argc - 1; i++) {
+        for (j = i + 1; j < argc; j++) {
+            if (ft_strcmp(argv[i], argv[j]) > 0) {
+                temp = argv[i];
+                argv[i] = argv[j];
+                argv[j] = temp;
+            }
+        }
+    }
+
+    for (i = 1; i < argc; i++) {
+        ft_putstr(argv[i]);
+        ft_putchar('\n');
+    }
+}
+
+int main(int argc, char *argv[]) {
+    if (argc > 1) {
+        ft_sort_params(argc, argv);
+    }
+
+    return 0;
+}
+```
+
+In this program, the `ft_strcmp` function is used to compare two strings in ASCII order. The `ft_putstr` function is used to output a string to the standard output. The `ft_putchar` function is used to output a single character.
+
+The `ft_sort_params` function implements a simple bubble sort algorithm to sort the arguments in ASCII order. It takes the `argc` and `argv` parameters, where `argc` is the argument count and `argv` is an array of strings containing the arguments. It compares each pair of adjacent arguments and swaps them if they are out of order. After sorting, it loops through the arguments and uses `ft_putstr` to print each argument followed by a newline character.
+
+The `main` function checks if there are more than one argument (`argc > 1`) before calling `ft_sort_params`. This ensures that the program skips the sorting logic if there are no additional arguments passed.
+
+To compile and run the program, you can use the following commands:
+
+```shell
+gcc ft_sort_params.c -o sort_params
+./sort_params test3 test1 test2
+```
+
+The program will display the sorted arguments, one per line:
+
+```
+$>./sort_params test3 test1 test2
+test1
+test2
+test3
+$>
+```
+
+Please note that the program assumes the arguments are passed as command-line arguments (`argv`). If you need to pass arguments through other means, such as reading from a file or taking input from the user, the program logic may need to be modified accordingly.
