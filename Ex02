@@ -1,0 +1,53 @@
+Files to turn in : ft_rev_params.c
+Allowed functions : write
+
+• We’re dealing with a program here, you should therefore have a function main in
+your .c file.
+• Create a program that displays its given arguments.
+• One per line, in the reverse order of the command line.
+• It should display all arguments, except for argv[0].
+
+Here's an implementation of the `ft_rev_params` program that displays its given arguments in reverse order:
+
+```c
+#include <unistd.h>
+
+int main(int argc, char *argv[])
+{
+    int i;
+
+    for (i = argc - 1; i > 0; i--) {
+        int j = 0;
+        while (argv[i][j] != '\0') {
+            write(1, &argv[i][j], 1);
+            j++;
+        }
+        write(1, "\n", 1);
+    }
+
+    return 0;
+}
+```
+
+In this program, the `main` function takes two parameters: `argc` (argument count) and `argv` (argument vector). The program loops through the command-line arguments starting from the last index (`argc - 1`) and goes in reverse order. It excludes `argv[0]` which represents the program name.
+
+For each argument, it uses a nested `while` loop to iterate through each character and writes it to the standard output using the `write` function. After printing each argument, it writes a newline character (`\n`) to create a new line.
+
+To compile and run the program, you can use the following commands:
+
+```shell
+gcc ft_rev_params.c -o rev_params
+./rev_params test1 test2 test3
+```
+
+The program will display the given arguments in reverse order, one per line. For example:
+
+```
+$>./rev_params test1 test2 test3
+test3
+test2
+test1
+$>
+```
+
+Please note that the program assumes the arguments are passed as command-line arguments (`argv`). If you need to pass arguments through other means, such as reading from a file or taking input from the user, the program logic may need to be modified accordingly.
